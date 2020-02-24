@@ -1,3 +1,3 @@
 enum GameState {
-  Init, Started
+  Init, Started, Completed
 }

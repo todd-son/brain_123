@@ -26,6 +26,8 @@ class BrainGame extends Game with TapDetector {
   int currentStage = 1;
   int stageOffset = 5;
 
+  Stage activeStage;
+
   BrainGame() {
     initialize();
   }
@@ -56,53 +58,17 @@ class BrainGame extends Game with TapDetector {
       home.render(canvas);
     }
 
-    if (this.state == GameState.Started &&
-        this.currentStage <= this.stageOffset) {
-      stage01.render(canvas);
-    }
-
-    if (this.state == GameState.Started &&
-        this.currentStage > this.stageOffset &&
-        this.currentStage <= this.stageOffset * 2) {
-      stage02.render(canvas);
-    }
-
-    if (this.state == GameState.Started &&
-        this.currentStage > this.stageOffset * 2 &&
-        this.currentStage <= this.stageOffset * 3) {
-      stage03.render(canvas);
-    }
-
-    if (this.state == GameState.Started &&
-        this.currentStage > this.stageOffset * 3 &&
-        this.currentStage <= this.stageOffset * 4) {
-      stage04.render(canvas);
+    if (this.state == GameState.Started) {
+      setActive();
+      this.activeStage.render(canvas);
     }
   }
 
   @override
   void update(double t) {
-    if (this.state == GameState.Started &&
-        this.currentStage <= this.stageOffset) {
-      stage01.update(t);
-    }
-
-    if (this.state == GameState.Started &&
-        this.currentStage > this.stageOffset &&
-        this.currentStage <= this.stageOffset * 2) {
-      stage02.update(t);
-    }
-
-    if (this.state == GameState.Started &&
-        this.currentStage > this.stageOffset * 2 &&
-        this.currentStage <= this.stageOffset * 3) {
-      stage03.update(t);
-    }
-
-    if (this.state == GameState.Started &&
-        this.currentStage > this.stageOffset * 3 &&
-        this.currentStage <= this.stageOffset * 4) {
-      stage04.update(t);
+    if (this.state == GameState.Started) {
+      setActive();
+      this.activeStage.update(t);
     }
   }
 
@@ -112,27 +78,38 @@ class BrainGame extends Game with TapDetector {
       home.onTapDown(details);
     }
 
-    if (this.state == GameState.Started &&
+    if (this.state == GameState.Started) {
+      setActive();
+      this.activeStage.onTapDown(details);
+    }
+  }
+
+  void setActive() {
+     if (this.state == GameState.Started &&
         this.currentStage <= this.stageOffset) {
-      stage01.onTapDown(details);
+      this.activeStage = stage01;
     }
 
     if (this.state == GameState.Started &&
         this.currentStage > this.stageOffset &&
         this.currentStage <= this.stageOffset * 2) {
-      stage02.onTapDown(details);
+      this.activeStage = stage02;
     }
 
     if (this.state == GameState.Started &&
         this.currentStage > this.stageOffset * 2 &&
         this.currentStage <= this.stageOffset * 3) {
-      stage03.onTapDown(details);
+      this.activeStage = stage03;
     }
 
     if (this.state == GameState.Started &&
         this.currentStage > this.stageOffset * 3 &&
         this.currentStage <= this.stageOffset * 4) {
-      stage04.onTapDown(details);
+      this.activeStage = stage04;
+    }
+
+    if (this.currentStage > this.stageOffset * 4) {
+      this.state = GameState.Completed;
     }
   }
 }
