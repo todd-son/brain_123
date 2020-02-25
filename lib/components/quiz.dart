@@ -39,14 +39,14 @@ class Quiz extends PositionComponent {
 
   @override
   void render(Canvas c) {
-    if (stage01.answers.isEmpty) {
+    if (stage01.quiz.isEmpty) {
       painter.text = TextSpan(
         text: "숫자를 순서대로 입력하세요.",
         style: textStyle,
       );
     } else {
       painter.text = TextSpan(
-        text: stage01.answers.fold("", (acc, s) => acc + " " + s.toString()),
+        text: stage01.quiz.fold("", (acc, s) => acc + " " + s.toString()),
         style: textStyle,
       );
     }

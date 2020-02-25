@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:brain_123/rules/max-min-sum-rule.dart';
+import 'package:brain_123/rules/max-next-sum-rule.dart';
 import 'package:brain_123/rules/order-rule.dart';
 import 'package:brain_123/rules/reverse-order-rule.dart';
 import 'package:brain_123/rules/reverse-sort-rule.dart';
@@ -23,6 +25,8 @@ class BrainGame extends Game with TapDetector {
   Stage stage02;
   Stage stage03;
   Stage stage04;
+  Stage stage05;
+  Stage stage06;
   int currentStage = 1;
   int stageOffset = 5;
 
@@ -39,8 +43,10 @@ class BrainGame extends Game with TapDetector {
     home = Home(this);
     stage01 = Stage(this, OrderRule());
     stage02 = Stage(this, ReverseOrderRule());
-    stage03 = Stage(this, SortRule());
-    stage04 = Stage(this, ReverseSortRule());
+    stage03 = Stage(this, MaxNextSumRule());
+    stage04 = Stage(this, MaxMinSumRule());
+    stage05 = Stage(this, SortRule());
+    stage06 = Stage(this, ReverseSortRule());
   }
 
   started() {
@@ -108,7 +114,19 @@ class BrainGame extends Game with TapDetector {
       this.activeStage = stage04;
     }
 
-    if (this.currentStage > this.stageOffset * 4) {
+     if (this.state == GameState.Started &&
+         this.currentStage > this.stageOffset * 4 &&
+         this.currentStage <= this.stageOffset * 5) {
+       this.activeStage = stage05;
+     }
+
+     if (this.state == GameState.Started &&
+         this.currentStage > this.stageOffset * 5 &&
+         this.currentStage <= this.stageOffset * 6) {
+       this.activeStage = stage06;
+     }
+
+     if (this.currentStage > this.stageOffset * 6) {
       this.state = GameState.Completed;
     }
   }

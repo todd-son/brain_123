@@ -1,5 +1,5 @@
 mixin Rule {
   String description();
 
-  bool satisfy(List<int> answers, List<int> values);
+  List<int> answer(List<int> quiz);
 }

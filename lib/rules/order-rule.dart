@@ -8,8 +8,8 @@ class OrderRule with Rule {
   }
 
   @override
-  bool satisfy(List<int> answers, List<int> values) {
-    return listEquals(answers, values);
+  List<int> answer(List<int> quiz) {
+    return quiz;
   }
 
 }

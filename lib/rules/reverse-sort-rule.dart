@@ -8,11 +8,10 @@ class ReverseSortRule with Rule {
   }
 
   @override
-  bool satisfy(List<int> answers, List<int> values) {
-    List<int> sorted = List();
-    sorted.addAll(answers);
-    sorted.sort((b, a) => a.compareTo(b));
-
-    return listEquals(sorted, values);
+  List<int> answer(List<int> quiz) {
+    List<int> reversed = List();
+    reversed.addAll(quiz);
+    reversed.sort((b, a) => a.compareTo(b));
+    return reversed;
   }
 }

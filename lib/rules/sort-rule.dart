@@ -8,11 +8,10 @@ class SortRule with Rule {
   }
 
   @override
-  bool satisfy(List<int> answers, List<int> values) {
+  List<int> answer(List<int> quiz) {
     List<int> sorted = List();
-    sorted.addAll(answers);
+    sorted.addAll(quiz);
     sorted.sort((a, b) => a.compareTo(b));
-
-    return listEquals(sorted, values);
+    return sorted;
   }
 }

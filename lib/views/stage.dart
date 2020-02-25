@@ -12,14 +12,15 @@ import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/resizable.dart';
 import 'package:flame/components/mixins/tapable.dart';
 import 'package:flame/time.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
 class Stage extends PositionComponent with Resizable, Tapable {
   BrainGame game;
   Hint hint;
   StageTitle title;
-  Quiz quiz;
-  Answer answer;
+  Quiz quizBoard;
+  Answer answerBoard;
   KeyPad keyPad;
   SpriteComponent review;
   Timer hintTimer = Timer(1);
@@ -27,8 +28,8 @@ class Stage extends PositionComponent with Resizable, Tapable {
   Rule rule;
 
   bool completed = false;
-  List<int> answers = List<int>();
-  List<int> values = List<int>();
+  List<int> quiz = List<int>();
+  List<int> input = List<int>();
 
   Stage(BrainGame game, Rule rule) {
     Size screenSize = game.size;
@@ -36,28 +37,28 @@ class Stage extends PositionComponent with Resizable, Tapable {
     this.rule = rule;
     hint = Hint(screenSize, rule.description());
     title = StageTitle(screenSize, game);
-    generateAnswer();
-    quiz = Quiz(screenSize, this);
+    generateQuiz();
+    quizBoard = Quiz(screenSize, this);
     keyPad = KeyPad(screenSize, this);
-    answer = Answer(screenSize, this);
+    answerBoard = Answer(screenSize, this);
     hintTimer.start();
     timer.start();
   }
 
-  void generateAnswer() {
-    this.answers = [];
+  void generateQuiz() {
+    this.quiz = [];
     Random random = Random();
     int answerLength = 0;
     int remain = game.currentStage % game.stageOffset;
 
     if (remain == 0) {
-      answerLength = game.stageOffset;
+      answerLength = game.stageOffset + 1;
     } else {
-      answerLength = remain;
+      answerLength = remain + 1;
     }
 
     for(int i = 0; i < answerLength; i++) {
-      this.answers.add(random.nextInt(9));
+      this.quiz.add(random.nextInt(9));
     }
   }
 
@@ -71,14 +72,19 @@ class Stage extends PositionComponent with Resizable, Tapable {
       title.render(canvas);
       canvas.restore();
       canvas.save();
+
+      hint.render(canvas);
+      canvas.restore();
+      canvas.save();
+
       if (timer.isRunning()) {
-        quiz.render(canvas);
+        quizBoard.render(canvas);
         canvas.restore();
         canvas.save();
       }
 
-      if (values.isNotEmpty) {
-        answer.render(canvas);
+      if (input.isNotEmpty) {
+        answerBoard.render(canvas);
         canvas.restore();
         canvas.save();
       }
@@ -105,23 +111,25 @@ class Stage extends PositionComponent with Resizable, Tapable {
 
   void tap(KeyPadEvent event) {
     if (event.index <= 9) {
-      values.add(event.index);
+      input.add(event.index);
     }
 
     if (event == KeyPadEvent.Del) {
-      values.removeLast();
+      input.removeLast();
     }
 
     if (event == KeyPadEvent.Esc) {
-      values.clear();
+      input.clear();
       timer.start();
     }
 
-    if (rule.satisfy(answers, values)) {
+    List<int> answer = rule.answer(quiz);
+
+    if (listEquals(answer, input)) {
       nextStage();
     } else {
-      if (values.length >= answers.length) {
-        values.clear();
+      if (input.length >= answer.length) {
+        input.clear();
         timer.start();
       }
     }
@@ -129,8 +137,8 @@ class Stage extends PositionComponent with Resizable, Tapable {
 
   void nextStage() {
     game.currentStage++;
-    values = [];
-    generateAnswer();
+    input = [];
+    generateQuiz();
     timer.start();
   }
 }

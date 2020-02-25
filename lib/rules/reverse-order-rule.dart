@@ -8,7 +8,7 @@ class ReverseOrderRule with Rule {
   }
 
   @override
-  bool satisfy(List<int> answers, List<int> values) {
-    return listEquals(answers.reversed.toList(), values);
+  List<int> answer(List<int> quiz) {
+    return quiz.reversed.toList();
   }
 }

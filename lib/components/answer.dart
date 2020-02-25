@@ -37,14 +37,14 @@ class Answer extends PositionComponent {
 
   @override
   void render(Canvas c) {
-    if (stage01.values.isEmpty) {
+    if (stage01.input.isEmpty) {
       painter.text = TextSpan(
         text: "숫자를 순서대로 입력하세요.",
         style: textStyle,
       );
     } else {
       painter.text = TextSpan(
-        text: stage01.values.fold("", (acc, s) => acc + " " + s.toString()),
+        text: stage01.input.fold("", (acc, s) => acc + " " + s.toString()),
         style: textStyle,
       );
     }
