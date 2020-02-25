@@ -114,9 +114,6 @@ class Stage extends PositionComponent with Resizable, Tapable {
 
     if (event == KeyPadEvent.Esc) {
       values.clear();
-    }
-
-    if (event == KeyPadEvent.Review) {
       timer.start();
     }
 
@@ -124,7 +121,8 @@ class Stage extends PositionComponent with Resizable, Tapable {
       nextStage();
     } else {
       if (values.length >= answers.length) {
-        values = [];
+        values.clear();
+        timer.start();
       }
     }
   }

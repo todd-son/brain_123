@@ -10,7 +10,7 @@ class KeyPad extends PositionComponent with Tapable {
   Stage stage;
   Size screenSize;
 
-  static double buttonSize = 60;
+  static double buttonSize = 70;
   SpriteComponent button1 = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("keyboard/1.png"));
   SpriteComponent button2 = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("keyboard/2.png"));
   SpriteComponent button3 = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("keyboard/3.png"));
@@ -23,11 +23,10 @@ class KeyPad extends PositionComponent with Tapable {
   SpriteComponent button0 = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("keyboard/0.png"));
   SpriteComponent buttonDel = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("keyboard/del.png"));
   SpriteComponent buttonEsc = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("keyboard/esc.png"));
-  SpriteComponent buttonReview = SpriteComponent.fromSprite(buttonSize, buttonSize, Sprite("hotkey/review.png"));
 
   KeyPad(Size screenSize, Stage stage) {
     this.x = screenSize.width / 2 - this.width / 2;
-    this.y = screenSize.height - screenSize.height / 2.5;
+    this.y = screenSize.height - screenSize.height / 2;
     this.stage = stage;
     this.screenSize = screenSize;
   }
@@ -69,9 +68,6 @@ class KeyPad extends PositionComponent with Tapable {
 
     buttonEsc.x = this.x - buttonSize / 2 + buttonSize;
     buttonEsc.y = this.y + buttonSize * 3;
-
-    buttonReview.x = this.screenSize.width - (buttonSize + 10);
-    buttonReview.y = buttonSize;
 
     button1.render(canvas);
     canvas.restore();
@@ -118,10 +114,6 @@ class KeyPad extends PositionComponent with Tapable {
     canvas.save();
 
     buttonEsc.render(canvas);
-    canvas.restore();
-    canvas.save();
-
-    buttonReview.render(canvas);
     canvas.restore();
     canvas.save();
   }
@@ -180,13 +172,9 @@ class KeyPad extends PositionComponent with Tapable {
     if(buttonEsc.toRect().contains(details.globalPosition)) {
       stage.tap(KeyPadEvent.Esc);
     }
-
-    if(buttonReview.toRect().contains(details.globalPosition)) {
-      stage.tap(KeyPadEvent.Review);
-    }
   }
 }
 
 enum KeyPadEvent {
-  Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Del, Esc, Review
+  Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Del, Esc
 }

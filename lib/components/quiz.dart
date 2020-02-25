@@ -55,7 +55,7 @@ class Quiz extends PositionComponent {
 
     position = Offset(
         screenSize.width / 2 - painter.width / 2,
-        screenSize.height / 9 + 200
+        screenSize.height / 9 + 150
     );
 
     painter.paint(c, position);
@@ -63,13 +63,4 @@ class Quiz extends PositionComponent {
 
   @override
   void update(double t) {}
-
-//  Quiz(Size screenSize, String text) : super(text) {
-//    this.config = TextConfig(
-//      fontSize: 35, color: Color(0xfff2f2f2), fontFamily: 'JejuHallasan',
-//    );
-//
-//    this.x = screenSize.width / 2 - this.width / 2;
-//    this.y = screenSize.height / 4;
-//  }
 }

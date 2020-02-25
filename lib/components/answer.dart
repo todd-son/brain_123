@@ -37,8 +37,6 @@ class Answer extends PositionComponent {
 
   @override
   void render(Canvas c) {
-//    print("values : " + stage01.values.toString());
-
     if (stage01.values.isEmpty) {
       painter.text = TextSpan(
         text: "숫자를 순서대로 입력하세요.",
@@ -55,7 +53,7 @@ class Answer extends PositionComponent {
 
     position = Offset(
       screenSize.width / 2 - painter.width / 2,
-      screenSize.height / 9 + 250
+      screenSize.height / 9 + 200
     );
 
     painter.paint(c, position);

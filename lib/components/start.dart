@@ -14,7 +14,7 @@ class Start extends TextComponent with Tapable {
     );
 
     this.x = screenSize.width / 2 - this.width / 2;
-    this.y = screenSize.height - screenSize.height / 9;
+    this.y = screenSize.height - screenSize.height / 5;
   }
 
   @override
